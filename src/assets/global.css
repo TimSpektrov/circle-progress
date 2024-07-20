@@ -1,0 +1,26 @@
+@import "/src/assets/fonts/stylesheet.css";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* fonts */
+    --fPrimary: 'Poppins', 'Montserrat', sans-serif;
+    --fSecondary: 'Roboto', sans-serif;
+    /* colors */
+    --cBg: #3e4b5c;
+    --cLight: #B5C3D7;
+    --cLight2: #778AA6;
+    --cDark: #282F37;
+    --cOrange: #F96C00;
+    --cOrangeText: #FF8B02;
+    --cGreen: #298D40;
+    --cGreenText: #33AD4F;
+}
+
+body {
+    font-family: var(--fPrimary);
+}
+
