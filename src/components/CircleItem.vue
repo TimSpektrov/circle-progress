@@ -2,7 +2,7 @@
   <div class="circle-item">
     <div class="circle-item__number" :style="{'--rotate':`${350}deg`}">{{item.maxValue}}</div>
     <div class="circle-item__number" :style="{'--rotate':`${rotateTargetValue}deg`}">{{item.targetValue}}</div>
-    <svg class="circle-item__progress" :style="{'--stroke-color': item.value < item.targetValue ? 'var(--cOrange)' : 'var(--cGreen)', '--stroke': percent}">
+    <svg class="circle-item__progress" :style="{'--stroke-color': item.value < item.targetValue ? 'var(--cOrange)' : 'var(--cGreen)', '--stroke': percent < 100 ? percent : 106}">
       <circle cx="120" cy="120" r="100"></circle>
     </svg>
     <div class="circle-item__number" :style="{'--rotate':`${item.value < item.maxValue ? rotateValue : 350}deg`}">
@@ -79,14 +79,13 @@ export default {
       background-color: var(--cBg);
     }
     &__text {
-      padding-top: 15px;
-      //padding-bottom: 10px;
       color: #B5C3D7;
       font-size: 13px;
       line-height: 18px;
       font-family: var(--fPrimary);
       font-weight: 400;
       text-align: center;
+
       &_accent {
         font-family: var(--fSecondary);
         font-weight: 900;
@@ -108,11 +107,11 @@ export default {
       left: 50%;
       padding-top: 6px;
       translate: -50% 0;
-      rotate: var(--rotate);
+      rotate: 9deg;
       line-height: 29px;
-
       color: var(--cLight2);
       font-size: 13px;
+      animation: rotateNumber 1s ease-out forwards;
       &-completed {
         width: 29px;
         height: 29px;
@@ -124,23 +123,51 @@ export default {
         rotate: calc(var(--rotate) * -1);
       }
     }
-    &__progress {
+    &__bg {
       position: absolute;
       width: 100%;
       height: 100%;
       circle {
         width: 100%;
         height: 100%;
-        fill: none;
         stroke-width: 38;
-        stroke: var(--stroke-color);
+        stroke: var(--cBg);
         stroke-linecap: round;
         stroke-dasharray: calc(314 * 2); /* Длина окружности круга */
-        //stroke-dashoffset: calc(314 / 2); /* Полная окружность скрыта */
-        stroke-dashoffset: calc(628px - ((628px - 38px) * var(--stroke) / 100));
+        fill: none;
+      }
+    }
+    &__progress {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+
+      circle {
+        width: 100%;
+        height: 100%;
+        fill: none;
+        stroke-width: 40;
+        stroke: var(--stroke-color);
+        stroke-linecap: round;
+        stroke-dasharray: calc(314 * 2);
+        stroke-dashoffset: calc(314 * 2);
         rotate: -80deg;
         transform-origin: center;
+        animation: strokeFilled 1s ease-out forwards;
       }
+    }
+  }
+
+  @keyframes rotateNumber {
+    100% {
+      rotate: var(--rotate)
+    }
+  }
+
+  @keyframes strokeFilled {
+    100% {
+      stroke-dashoffset: calc(628px - ((628px - 38px) * var(--stroke) / 100))
     }
   }
 </style>

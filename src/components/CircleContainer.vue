@@ -20,13 +20,13 @@ export default {
         {
           id: 2,
           maxValue: 108,
-          value: 107,
+          value: 108,
           targetValue: 80,
         },
         {
           id: 3,
           maxValue: 108,
-          value: 100,
+          value: 107,
           targetValue: 80,
         },
         {
@@ -65,5 +65,6 @@ export default {
     padding: 30px;
     margin-inline: auto;
     background-color: var(--cBg);
+    min-height: 100vh;
   }
 </style>
