@@ -1,11 +1,14 @@
 <template>
   <div class="circle-item">
+    <svg class="circle-item__bg">
+      <circle cx="120" cy="120" r="120"></circle>
+    </svg>
     <div class="circle-item__number" :style="{'--rotate':`${350}deg`}">{{item.maxValue}}</div>
     <div class="circle-item__number" :style="{'--rotate':`${rotateTargetValue}deg`}">{{item.targetValue}}</div>
     <svg class="circle-item__progress" :style="{'--stroke-color': item.value < item.targetValue ? 'var(--cOrange)' : 'var(--cGreen)', '--stroke': percent < 100 ? percent : 106}">
       <circle cx="120" cy="120" r="100"></circle>
     </svg>
-    <div class="circle-item__number" :style="{'--rotate':`${item.value < item.maxValue ? rotateValue : 350}deg`}">
+    <div class="circle-item__number circle-item__number_move" :style="{'--rotate':`${item.value < item.maxValue ? rotateValue : 350}deg`}">
       <div class="circle-item__number-completed">
         {{item.value}}
       </div>
@@ -61,8 +64,6 @@ export default {
     position: relative;
     width: 240px;
     height: 240px;
-    border-radius: 50%;
-    background-color: var(--cDark);
 
     &__text-container {
       position: absolute;
@@ -91,7 +92,6 @@ export default {
         font-weight: 900;
         font-size: 38px;
         line-height: 53px;
-
       }
       &_not-completed {
         color: var(--cOrangeText);
@@ -107,11 +107,14 @@ export default {
       left: 50%;
       padding-top: 6px;
       translate: -50% 0;
-      rotate: 9deg;
+      rotate: var(--rotate);
       line-height: 29px;
       color: var(--cLight2);
       font-size: 13px;
-      animation: rotateNumber 1s ease-out forwards;
+      &_move {
+        rotate: 9deg;
+        animation: rotateNumber 1s ease-out forwards;
+      }
       &-completed {
         width: 29px;
         height: 29px;
@@ -125,17 +128,27 @@ export default {
     }
     &__bg {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+    //  box-shadow:
+    //      26px 26px 130px 0px #00000066,
+    //      -26px -26px 50px 0px #FDFDFD26,
+    //      5px 5px 20px 0px #161B1DB2 inset,
+    //      -5px -5px 20px 0px #FAFBFF0D inset;
+      filter:
+          drop-shadow(26px 26px 130px #00000066)
+          drop-shadow(-26px -26px 50px #FDFDFD26)
+          //drop-shadow(5px 5px 20px #161B1DB2)
+          //drop-shadow(-5px -5px 20px #FAFBFF0D)
+    ;
+    }
+
       circle {
         width: 100%;
         height: 100%;
-        stroke-width: 38;
-        stroke: var(--cBg);
-        stroke-linecap: round;
-        stroke-dasharray: calc(314 * 2); /* Длина окружности круга */
-        fill: none;
-      }
+        fill: var(--cDark);
     }
     &__progress {
       position: absolute;
@@ -164,7 +177,6 @@ export default {
       rotate: var(--rotate)
     }
   }
-
   @keyframes strokeFilled {
     100% {
       stroke-dashoffset: calc(628px - ((628px - 38px) * var(--stroke) / 100))
